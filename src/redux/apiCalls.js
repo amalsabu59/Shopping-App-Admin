@@ -1,7 +1,10 @@
 import { publicRequest, userRequest } from "../axios";
 import { loginFailure, loginStart, loginSuccess } from "./userRedux";
 import {getproductStart,getproductSucess,getProductsFailure,
-    deleteproductStart,deleteproductSucess,deleteProductsFailure } from "./ProductRedux";
+        deleteproductStart,deleteproductSucess,deleteProductsFailure,
+        updateproductStart,updateproductSucess,updateProductsFailure,
+        addproductStart,addproductSucess,addProductsFailure
+    } from "./ProductRedux";
 
 export  const login = async (dispatch,user)=>{
     dispatch(loginStart());
@@ -36,5 +39,27 @@ export  const deleteProducts = async (id,dispatch)=>{
 
         }catch(err){
             dispatch(deleteProductsFailure())
+    }
+};
+export  const updateProducts = async (id,product,dispatch)=>{
+    dispatch(updateproductStart());
+        try{
+            
+            dispatch(updateproductSucess(id,product))
+
+
+        }catch(err){
+            dispatch(updateProductsFailure())
+    }
+};
+export  const addProducts = async (product,dispatch)=>{
+    dispatch(addproductStart());
+        try{
+            const res = await userRequest.post(`/products`,product)
+            dispatch(addproductSucess(res.data))
+
+
+        }catch(err){
+            dispatch(addProductsFailure())
     }
 }
